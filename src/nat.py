@@ -100,12 +100,12 @@ def train_helper_nat(model, learning_rate, standard_loss_fn, stability_loss_fn, 
 if __name__=='__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("--checkpoint", type=str, default='')
-    parser.add_argument("--which_data", type=str, default='排比')
+    parser.add_argument("--which_data", type=str, default='')
     parser.add_argument("--device", type=str, default='cuda:0')
     parser.add_argument("--max_iters", type=int, default=10)
-    parser.add_argument('--pretrained_model_path', type=str, default='/share/Guowei/acl_robust_nlp/chinese_wwm_pytorch')
+    parser.add_argument('--pretrained_model_path', type=str, default='')
     parser.add_argument('--num_classes', type=int, default=2)
-    parser.add_argument('--best_model_save_path', type=str, default='/share/Guowei/acl_robust_nlp/model/{}/NAT')
+    parser.add_argument('--best_model_save_path', type=str, default='../model/{}/NAT')
 
     args = parser.parse_args()
     checkpoint = args.checkpoint
@@ -121,9 +121,9 @@ if __name__=='__main__':
     os.makedirs(best_model_save_path, exist_ok=True)
     
     print('This is baseline NAT, loading original and rule-based noisy data...')
-    original_train_data = load_json('/share/Guowei/acl_robust_nlp/data/text_classification/{}/train.json'.format(which_data))['data']
-    valid_data = load_json('/share/Guowei/acl_robust_nlp/data/text_classification/{}/valid.json'.format(which_data))['data']
-    noisy_train_data_raw = load_json('/share/Guowei/acl_robust_nlp/model_and_data/规则造错/{}/data/train_large.json'.format(which_data))['data']
+    original_train_data = load_json('../data/{}/train.json'.format(which_data))['data']
+    valid_data = load_json('../data/{}/valid.json'.format(which_data))['data']
+    noisy_train_data_raw = load_json('path_to_rule_based_samples')
 
     noisy_train_data = [{'text' : [x['text']], 'label' : x['label']} for x in original_train_data]
     for item in noisy_train_data_raw:

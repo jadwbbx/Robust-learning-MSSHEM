@@ -61,13 +61,13 @@ def helper(data_lst, all_train_data_lst, info):
 if __name__=='__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("--checkpoint", type=str, default='')
-    parser.add_argument("--which_data", type=str, default='排比')
+    parser.add_argument("--which_data", type=str, default='')
     parser.add_argument("--device", type=str, default='cuda:0')
     parser.add_argument("--max_iters", type=int, default=10)
-    parser.add_argument('--pretrained_model_path', type=str, default='/share/Guowei/acl_robust_nlp/chinese_wwm_pytorch')
+    parser.add_argument('--pretrained_model_path', type=str, default='')
     parser.add_argument('--num_classes', type=int, default=2)
-    parser.add_argument('--save_hard_example_path', type=str, default='/share/Guowei/acl_robust_nlp/model_and_data/hard_examples/{}')
-    parser.add_argument('--best_model_save_path', type=str, default='/share/Guowei/acl_robust_nlp/model/{}/mining')
+    parser.add_argument('--save_hard_example_path', type=str, default='hard_examples/{}')
+    parser.add_argument('--best_model_save_path', type=str, default='../model/{}/mining')
 
     args = parser.parse_args()
     checkpoint = args.checkpoint
@@ -84,9 +84,9 @@ if __name__=='__main__':
 
     
     print('loading all data...')
-    train_data_org = load_json('/share/Guowei/acl_robust_nlp/data/text_classification/{}/train.json'.format(which_data))['data']
-    all_train_data_lst = load_json('/share/Guowei/acl_robust_nlp/model_and_data/all_data/{}/train_large.json'.format(which_data))
-    valid_data = load_json('/share/Guowei/acl_robust_nlp/data/text_classification/{}/valid.json'.format(which_data))['data']
+    train_data_org = load_json('../data/{}/train.json'.format(which_data))['data']
+    all_train_data_lst = load_json('../data/{}/train_large.json'.format(which_data))
+    valid_data = load_json('../data/{}/valid.json'.format(which_data))['data']
 
 
     learning_rate_lst = [5e-7]
@@ -120,7 +120,6 @@ if __name__=='__main__':
                         print('start finetuning model {}, with mining mode, lr {}, batch_size {}, alpha {}, nhard {}'.format(\
                                                                     model_prefix, learning_rate, batch_size, alpha, num_hard_examples))
                         model = load_model(checkpoint, device)
-                        #model = load_model(checkpoint, device, pretrained_model_path='/share/Guowei/acl_robust_nlp/pretrained_model/hfl_chinese_xlnet_base', model_name='xlnet')
                         train_helper_mining(model, learning_rate, standard_loss_fn, stability_loss_fn, \
                                         train_data_org, all_train_data_lst, valid_data, batch_size, \
                                         device, max_iters, best_model_save_path, model_prefix, \

@@ -103,7 +103,6 @@ if __name__=='__main__':
 
         if(done_df.shape[0]>0):
             df = pd.concat([df, done_df], axis=0)
-            print('新增{}个模型'.format(done_df.shape[0]))
         df.to_csv(os.path.join(root_path, 'metrics.csv'), index=False)
     else:
         for f in ['test.json', 'test_hw_ocr.json', 'test_tal_ocr.json']:

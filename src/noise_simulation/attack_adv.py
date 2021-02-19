@@ -76,14 +76,14 @@ if __name__=='__main__':
     from utils import *
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--which_data", type=str, default='排比')
+    parser.add_argument("--which_data", type=str, default='metaphor')
     parser.add_argument("--checkpoint", type=str, default='')
     parser.add_argument("--device", type=str, default='cuda:0')
-    parser.add_argument("--synonyms_path", type=str, default='/share/Guowei/acl_robust_nlp/形近字.json')
-    parser.add_argument("--vocab_path", type=str, default='/share/Guowei/acl_robust_nlp/3500常用汉字.txt')
+    parser.add_argument("--synonyms_path", type=str, default='synonym.json')
+    parser.add_argument("--vocab_path", type=str, default='3500_frequent_chars.txt')
     parser.add_argument("--batch_size", type=int, default=10)
     parser.add_argument('--num_samples_per_attack', type=int, default=1)
-    parser.add_argument('--attacked_data_save_path', type=str, default='/share/Guowei/acl_robust_nlp/model_and_data/对抗样本/{}/data')
+    parser.add_argument('--attacked_data_save_path', type=str, default='../../data/{}/data')
 
 
     args = parser.parse_args()
@@ -105,7 +105,7 @@ if __name__=='__main__':
     os.makedirs(attacked_data_save_path, exist_ok=True)
 
 
-    data_lst = load_json('/share/Guowei/acl_robust_nlp/data/text_classification/{}/train.json'.format(which_data))['data']
+    data_lst = load_json('../../data/{}/train.json'.format(which_data))['data']
 
     attacked_data = create_adv_data(checkpoint, gsgr, data_lst, synonyms, vocab_lst, device, bs=batch_size, n=num_samples_per_attack)
 

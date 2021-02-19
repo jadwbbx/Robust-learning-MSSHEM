@@ -255,26 +255,3 @@ def train_robust_bert(pretrained_model_path, data_path, best_model_save_path, de
                 best_model = train_helper(model, learning_rate, loss_fn, train_data, valid_data, \
                                         batch_size, device, max_iters, best_model_save_path,\
                                         model_prefix, save_every_epoch)
-
-
-if __name__=='__main__':
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--pretrained_model_path', type=str, default='/share_v1/Guowei/acl_robust_nlp/chinese_wwm_pytorch')
-    parser.add_argument("--which_data", type=str, default='')
-    parser.add_argument("--device", type=str, default='cuda:0')
-    parser.add_argument("--max_iters", type=int, default=20)
-    parser.add_argument('--model_save_path', type=str, default='')
-    parser.add_argument('--save_every_epoch', type=bool, default=False)
-
-    args = parser.parse_args()
-    which_data = args.which_data
-    device = args.device
-    max_iters = args.max_iters
-    model_save_path = args.model_save_path
-    pretrained_model_path = args.pretrained_model_path
-    save_every_epoch = args.save_every_epoch
-
-    data_path = '/share_v1/Guowei/acl_robust_nlp/data/text_classification/{}'.format(which_data)
-
-    # train on pure clean text
-    train_robust_bert(pretrained_model_path, data_path, model_save_path, device, max_iters=max_iters, save_every_epoch=save_every_epoch)
